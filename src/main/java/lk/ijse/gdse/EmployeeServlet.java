@@ -29,11 +29,14 @@ public class EmployeeServlet extends HttpServlet {
         ServletContext sc = req.getServletContext();
         BasicDataSource dataSource = (BasicDataSource) sc.getAttribute("ds");
 
-        try{
+        try {
             Connection connection = dataSource.getConnection();
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM employees");
 
+            PreparedStatement pstm = connection.prepareStatement(
+                    "SELECT empId, empName, empAddress, empEmail, empPicture FROM employees"
+            );
             ResultSet rst = pstm.executeQuery();
+
             List<Map<String, String>> employees = new ArrayList<>();
             while (rst.next()) {
                 Map<String, String> employee = new HashMap<>();
@@ -44,6 +47,7 @@ public class EmployeeServlet extends HttpServlet {
                 employee.put("empEmail", rst.getString("empEmail"));
                 employees.add(employee);
             }
+
             PrintWriter out = resp.getWriter();
             resp.setStatus(HttpServletResponse.SC_OK);
             mapper.writeValue(out, Map.of(
@@ -51,8 +55,10 @@ public class EmployeeServlet extends HttpServlet {
                     "status", "success",
                     "data", employees
             ));
+
             connection.close();
-        }catch (Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             mapper.writeValue(resp.getWriter(), Map.of(
                     "code", "500",
@@ -61,6 +67,7 @@ public class EmployeeServlet extends HttpServlet {
             ));
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
