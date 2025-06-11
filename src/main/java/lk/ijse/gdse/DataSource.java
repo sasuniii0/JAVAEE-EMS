@@ -10,16 +10,16 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class DataSource implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        BasicDataSource bs = new BasicDataSource();
-        bs.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        bs.setUrl("jdbc:mysql://localhost:3306/emsdb");
-        bs.setUsername("root");
-        bs.setPassword("Ijse@1234");
-        bs.setInitialSize(50);
-        bs.setMaxTotal(100);
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/emsdb");
+        ds.setUsername("root");
+        ds.setPassword("Ijse@1234");
+        ds.setInitialSize(50);
+        ds.setMaxTotal(100);
 
         ServletContext sc = sce.getServletContext();
-        sc.setAttribute("ds", bs);
+        sc.setAttribute("ds", ds);
     }
 
     @Override
