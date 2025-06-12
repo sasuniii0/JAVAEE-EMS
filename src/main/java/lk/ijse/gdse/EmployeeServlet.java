@@ -32,7 +32,7 @@ public class EmployeeServlet extends HttpServlet {
         try {
             Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstm = connection.prepareStatement(
+             PreparedStatement pstm = connection.prepareStatement(
                     "SELECT empId, empName, empAddress, empEmail, empPicture FROM employees"
             );
             ResultSet rst = pstm.executeQuery();
